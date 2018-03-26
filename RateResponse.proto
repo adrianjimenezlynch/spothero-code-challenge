@@ -1,0 +1,8 @@
+package RateResponse;
+
+option java_package = "com.spothero.challenge.bo";
+option java_outer_classname = "RateResponseProtoc";
+
+message RateResponse {
+    required int32 rate = 1;
+}

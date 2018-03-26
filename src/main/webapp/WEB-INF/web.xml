@@ -1,0 +1,55 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <listener>
+        <listener-class>com.spothero.challenge.config.MetricsServletContextListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.spothero.challenge.config.HealthCheckServletContextListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>Jersey REST Service</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>com.spothero.challenge.config.ResourceConfiguration</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>com.spothero.challenge.config</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.spothero.challenge.config.RateResponseProtocMessageBodyProvider</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>metrics</servlet-name>
+        <servlet-class>com.codahale.metrics.servlets.AdminServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Jersey REST Service</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>metrics</servlet-name>
+        <url-pattern>/metrics/*</url-pattern>
+    </servlet-mapping>
+
+</web-app>
